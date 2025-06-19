@@ -2,83 +2,106 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>便利ツール集</title>
+  <title>生活便利ツール集</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { background-color: var(--bg-color); color: var(--text-color); transition: all 0.3s ease; }
-    .container { padding-top: 2rem; }
-    .tab-content > .tab-pane { padding-top: 1rem; }
-    .output { margin-top: 1rem; white-space: pre-wrap; }
     :root {
       --bg-color: #f9f9f9;
       --text-color: #000;
+      --card-bg: #ffffff;
     }
     body.dark {
       --bg-color: #121212;
-      --text-color: #f0f0f0;
+      --text-color: #ffffff;
+      --card-bg: #1e1e1e;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .navbar {
+      background-color: var(--card-bg);
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+    .tab-content > .tab-pane {
+      padding: 2rem 1rem;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    textarea, input[type=file], input[type=text] {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    button {
+      margin-top: 1rem;
+    }
+    .output {
+      margin-top: 1rem;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1>🧰 生活便利ツール集</h1>
-      <button class="btn btn-secondary" onclick="toggleDarkMode()">🌓 ダークモード切替</button>
-    </div>
+  <nav class="navbar d-flex justify-content-between align-items-center">
+    <h1 class="h4 mb-0">🧰 生活便利ツール集</h1>
+    <button class="btn btn-outline-secondary" onclick="toggleDarkMode()">🌓 ダークモード</button>
+  </nav>
 
-    <!-- タブナビゲーション -->
-    <ul class="nav nav-tabs" id="toolTabs" role="tablist">
+  <div class="container mt-4">
+    <ul class="nav nav-pills nav-fill mb-3" id="toolTabs" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="char-tab" data-bs-toggle="tab" data-bs-target="#char" type="button" role="tab">文字数カウント</button>
+        <button class="nav-link active" id="char-tab" data-bs-toggle="tab" data-bs-target="#char" type="button" role="tab">✍️ 文字数</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="qr-tab" data-bs-toggle="tab" data-bs-target="#qr" type="button" role="tab">QRコード生成</button>
+        <button class="nav-link" id="qr-tab" data-bs-toggle="tab" data-bs-target="#qr" type="button" role="tab">🔳 QR生成</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="img-tab" data-bs-toggle="tab" data-bs-target="#img" type="button" role="tab">画像圧縮</button>
+        <button class="nav-link" id="img-tab" data-bs-toggle="tab" data-bs-target="#img" type="button" role="tab">🖼️ 画像圧縮</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pdf-tab" data-bs-toggle="tab" data-bs-target="#pdf" type="button" role="tab">PDF結合</button>
+        <button class="nav-link" id="pdf-tab" data-bs-toggle="tab" data-bs-target="#pdf" type="button" role="tab">📎 PDF結合</button>
       </li>
     </ul>
 
-    <!-- タブ内容 -->
     <div class="tab-content">
-      <!-- 文字数カウント -->
       <div class="tab-pane fade show active" id="char" role="tabpanel">
-        <h2 class="mt-3">📝 文字数カウント</h2>
-        <textarea id="charText" rows="5" placeholder="ここにテキストを入力してください"></textarea>
-        <button class="btn btn-primary mt-2" onclick="countChars()">カウント</button>
+        <h2>✍️ 文字数カウント</h2>
+        <p>文章を入力して、文字数をカウントします。</p>
+        <textarea id="charText" rows="4" placeholder="ここに文章を入力"></textarea>
+        <button class="btn btn-primary" onclick="countChars()">カウントする</button>
         <div class="output" id="charCount"></div>
       </div>
 
-      <!-- QRコード -->
       <div class="tab-pane fade" id="qr" role="tabpanel">
-        <h2 class="mt-3">🔳 QRコード生成</h2>
-        <input id="qrText" type="text" class="form-control" placeholder="テキストまたはURLを入力">
-        <button class="btn btn-success mt-2" onclick="generateQR()">生成</button>
+        <h2>🔳 QRコード生成</h2>
+        <p>URLやテキストをQRコードに変換します。</p>
+        <input id="qrText" type="text" class="form-control" placeholder="https://example.com">
+        <button class="btn btn-success" onclick="generateQR()">QRコードを生成</button>
         <div id="qrcode" class="text-center mt-3"></div>
       </div>
 
-      <!-- 画像圧縮 -->
       <div class="tab-pane fade" id="img" role="tabpanel">
-        <h2 class="mt-3">🖼️ 画像圧縮</h2>
+        <h2>🖼️ 画像圧縮</h2>
+        <p>画像サイズを小さくしてダウンロードできます。</p>
         <input type="file" id="imgInput" accept="image/*">
-        <button class="btn btn-warning mt-2" onclick="compressImage()">圧縮</button>
+        <button class="btn btn-warning" onclick="compressImage()">画像を圧縮</button>
         <div id="compressedResult" class="mt-3"></div>
       </div>
 
-      <!-- PDF結合 -->
       <div class="tab-pane fade" id="pdf" role="tabpanel">
-        <h2 class="mt-3">📎 PDF結合</h2>
+        <h2>📎 PDF結合</h2>
+        <p>複数のPDFを一つにまとめます。</p>
         <input type="file" id="pdfs" multiple accept="application/pdf">
-        <button class="btn btn-danger mt-2" onclick="mergePDFs()">結合</button>
+        <button class="btn btn-danger" onclick="mergePDFs()">PDFを結合</button>
         <div id="pdfResult" class="mt-3"></div>
       </div>
     </div>
 
-    <!-- BuyMeACoffee -->
     <div class="text-center mt-5">
       <a href="https://www.buymeacoffee.com/yourname" target="_blank">
         <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" style="height: 45px; width: 162px;">
@@ -86,26 +109,21 @@
     </div>
   </div>
 
-  <!-- ライブラリ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
     function toggleDarkMode() {
       document.body.classList.toggle('dark');
     }
-
     function countChars() {
       const text = document.getElementById('charText').value;
       document.getElementById('charCount').innerText = `文字数: ${text.length}`;
     }
-
     function generateQR() {
       document.getElementById('qrcode').innerHTML = '';
       new QRCode(document.getElementById('qrcode'), document.getElementById('qrText').value);
     }
-
     async function compressImage() {
       const file = document.getElementById('imgInput').files[0];
       if (!file) return;
@@ -128,7 +146,6 @@
         }, 'image/jpeg', 0.7);
       };
     }
-
     async function mergePDFs() {
       const files = document.getElementById('pdfs').files;
       if (files.length < 2) return alert('最低2つのPDFが必要です');
